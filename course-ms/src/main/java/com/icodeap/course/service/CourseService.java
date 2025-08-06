@@ -1,8 +1,9 @@
 package com.icodeap.course.service;
 
+import com.icodeap.course.dto.CourseDTO;
 import com.icodeap.course.entity.Course;
 
 public interface CourseService {
-    Course save(Course course);
-    Course findByCourseCode(String courseCode);
+    CourseDTO save(CourseDTO courseDTO);
+    CourseDTO findByCourseCode(String courseCode);
 }

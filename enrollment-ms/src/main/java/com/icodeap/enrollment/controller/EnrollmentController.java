@@ -1,6 +1,6 @@
 package com.icodeap.enrollment.controller;
 
-import com.icodeap.enrollment.entity.Enrollment;
+import com.icodeap.enrollment.dto.EnrollmentDTO;
 import com.icodeap.enrollment.service.EnrollmentService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -15,14 +15,14 @@ public class EnrollmentController {
     //http://localhost:8080/api/v1/enrollments
 
     @PostMapping
-    public Enrollment save(@RequestBody Enrollment enrollment){
-        return enrollmentService.save(enrollment);
+    public EnrollmentDTO save(@RequestBody EnrollmentDTO enrollmentDTO){
+        return enrollmentService.save(enrollmentDTO);
     }
 
     //GET
     //http://localhost:8080/api/v1/enrollments/1
     @GetMapping("/{id}")
-    public Enrollment findById(@PathVariable Long id){
+    public EnrollmentDTO findById(@PathVariable Long id){
         return enrollmentService.findById(id);
     }
 

@@ -1,4 +1,4 @@
-package com.icodeap.course.config;
+package com.icodeap.enrollment.config;
 
 import org.modelmapper.ModelMapper;
 import org.modelmapper.record.RecordModule;
@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class CourseConfiguration {
+public class EnrollmentConfiguration {
 
     @Bean
     public ModelMapper modelMapper(){

@@ -1,10 +1,11 @@
 package com.icodeap.enrollment.service;
 
 
+import com.icodeap.enrollment.dto.EnrollmentDTO;
 import com.icodeap.enrollment.entity.Enrollment;
 
 public interface EnrollmentService {
-    Enrollment save(Enrollment enrollment);
-    Enrollment findById(Long id);
+    EnrollmentDTO save(EnrollmentDTO enrollmentDTO);
+    EnrollmentDTO findById(Long id);
 
 }
