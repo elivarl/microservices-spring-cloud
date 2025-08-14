@@ -22,6 +22,7 @@ public class StudentController {
 
     //GET
     //http://localhost:8081/api/v1/students/12244343434
+    //http://localhost:8081/api/v1/students/identification-number/
     @GetMapping("/identification-number/{identification}")
     public StudentDTO findByIdentificationNumber(@PathVariable("identification") String identificationNumber){
         return studentService.findByIdentificationNumber(identificationNumber);
