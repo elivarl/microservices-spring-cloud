@@ -9,16 +9,17 @@ import com.icodeap.enrollment.mapper.EnrollmentMapper;
 import com.icodeap.enrollment.repository.EnrollmentRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 @AllArgsConstructor
 public class EnrollmentServiceImpl implements EnrollmentService{
     private final EnrollmentRepository enrollmentRepository;
     private final ModelMapper modelMapper;
-    private final RestTemplate restTemplate;
+    //private final WebClient webClient;
+    private final OpenFeignConsumeCourse openFeignConsumeCourse;
+    private final OpenFeignConsumeStudent openFeignConsumeStudent;
 
     @Override
     public EnrollmentDTO save(EnrollmentDTO enrollmentDTO) {
@@ -32,19 +33,20 @@ public class EnrollmentServiceImpl implements EnrollmentService{
 
         Enrollment enrollmentDB = enrollmentRepository.findById(id).get();
 
-        ResponseEntity<StudentDTO> studentDTOResponseEntity = restTemplate.getForEntity(
-                "http://localhost:8081/api/v1/students/identification-number/"+enrollmentDB.getIdentificationNumber(),
-                StudentDTO.class
-        );
+       /* StudentDTO studentDTO = webClient.get().uri("http://localhost:8081/api/v1/students/identification-number/"+enrollmentDB.getIdentificationNumber())
+                .retrieve()
+                .bodyToMono(StudentDTO.class)
+                .block();
 
-        ResponseEntity<CourseDTO> courseDTOResponseEntity = restTemplate.getForEntity(
-                "http://localhost:8082/api/v1/courses/course-code/"+enrollmentDB.getCourseCode(),
-                CourseDTO.class
-        );
+        CourseDTO courseDTO = webClient.get().uri("http://localhost:8082/api/v1/courses/course-code/"+enrollmentDB.getCourseCode())
+                .retrieve()
+                .bodyToMono(CourseDTO.class)
+                .block();*/
+        StudentDTO studentDTO = openFeignConsumeStudent.findByIdentificationNumber(enrollmentDB.getIdentificationNumber());
+        CourseDTO courseDTO = openFeignConsumeCourse.findByCourseCode(enrollmentDB.getCourseCode());
+
 
         EnrollmentDTO enrollmentDTO = EnrollmentMapper.toDTO(enrollmentDB);
-        CourseDTO courseDTO = courseDTOResponseEntity.getBody();
-        StudentDTO studentDTO = studentDTOResponseEntity.getBody();
 
         return  new EnrollmentResponseDTO(enrollmentDTO, courseDTO, studentDTO);
 
